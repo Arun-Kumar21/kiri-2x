@@ -1,6 +1,6 @@
 # kiri-2x
 
-Image super-resolution for anime-style artwork using a deep convolutional neural network, primarily based on SRCNN [Reference Paper](https://arxiv.org/abs/1501.00092).
+Image super-resolution for anime-style artwork using a deep convolutional neural network, primarily based on SRCNN [Research Paper](https://arxiv.org/abs/1501.00092).
 
 ## Results:
 
