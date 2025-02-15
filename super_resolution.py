@@ -48,12 +48,12 @@ class SuperResolution:
         return sr_image
 
 if __name__ == "__main__":
-    model = VGG8_SR().to(CONFIG.DEVICE)
-    sr = SuperResolution("weights/vgg8_rgb.pth", model)
-    sr.upscale("images/waifu/waifu_low.jpg", save_path="images/waifu/waifu_VGG8_SR.jpg", show=True)
+    # model = VGG8_SR().to(CONFIG.DEVICE)
+    # sr = SuperResolution("weights/vgg8_rgb.pth", model)
+    # sr.upscale("images/waifu/waifu_low.jpg", save_path="images/waifu/waifu_VGG8_SR.jpg", show=True)
     
-    # cmp = ImageComparator(['images/waifu/waifu_low.jpg', 'images/waifu/waifu_SR.jpg', 'images/waifu/waifu_VGG8_SR.jpg'], [50, 50, 150, 150])
-    # cmp.compare()
+    cmp = ImageComparator(['images/waifu/waifu_low.jpg', 'images/waifu/waifu_SR.jpg', 'images/waifu/waifu_VGG8_SR.jpg'], ["SRCNN", "VGG"], [50, 50, 150, 150])
+    cmp.compare()
 
     # cmp = PSNRComparator('images/waifu/waifu_low.jpg', 'images/waifu/waifu_VGG8_SR.jpg')
     # dif = cmp.compare()

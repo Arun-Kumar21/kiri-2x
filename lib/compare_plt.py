@@ -2,13 +2,14 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 class ImageComparator:
-    def __init__(self, image_paths, crop_coords):
+    def __init__(self, image_paths, image_labels,crop_coords):
         """
         Initialize the ImageComparator with image paths and cropping coordinates.
         :param image_paths: List of image file paths.
         :param crop_coords: Tuple containing cropping coordinates (x1, y1, x2, y2).
         """
         self.image_paths = image_paths
+        self.image_labels = image_labels
         self.crop_coords = crop_coords
         self.images = []
     
@@ -35,7 +36,7 @@ class ImageComparator:
         cropped_images = self.crop_images()
         
         fig, axes = plt.subplots(1, len(self.image_paths), figsize=(10, 5))
-        titles = ["Original (Zoomed In)"] + [f"Image {i+1} (Zoomed In)" for i in range(1, len(self.image_paths))]
+        titles = ["Original (Zoomed In)"] + [f"{self.image_labels[i]} (Zoomed In)" for i in range(0, len(self.image_labels))]
         
         for ax, img, title in zip(axes, cropped_images, titles):
             ax.imshow(img)
