@@ -43,3 +43,4 @@ class ImageComparator:
             ax.axis("off")
         
         plt.show()
+

@@ -2,18 +2,26 @@ import torch
 import torchvision.transforms.functional as TF
 
 from models.srcnn import SRCNN
+from models.vgg.vgg8_SR import VGG8_SR
+from models.vgg.vgg16_pretrained import VGG16Upscaler
+
 from config.config import CONFIG
+
 from lib.preprocessing import preprocessing_img
+from lib.compare_plt import ImageComparator
+
+from evaluation.psnr import PSNRComparator
+
 
 class SuperResolution:
-    def __init__(self, model_path, device=CONFIG.DEVICE):
+    def __init__(self, model_path, model, device=CONFIG.DEVICE):
         """
         Initialize the SuperResolution model.
         :param model_path: Path to the pre-trained model.
         :param device: Device to run the model on (CPU/GPU).
         """
         self.device = device
-        self.model = SRCNN().to(self.device)
+        self.model = model.to(self.device)
         self.model.load_state_dict(torch.load(model_path, map_location=self.device))
         self.model.eval()
     
@@ -40,5 +48,15 @@ class SuperResolution:
         return sr_image
 
 if __name__ == "__main__":
-    sr = SuperResolution("weights/srcnn_rgb.pth")
-    sr.upscale("images/waifu/waifu_low.jpg", save_path="images/waifu/waifu_SR.jpg", show=True)
+    model = VGG8_SR().to(CONFIG.DEVICE)
+    sr = SuperResolution("weights/vgg8_rgb.pth", model)
+    sr.upscale("images/waifu/waifu_low.jpg", save_path="images/waifu/waifu_VGG8_SR.jpg", show=True)
+    
+    # cmp = ImageComparator(['images/waifu/waifu_low.jpg', 'images/waifu/waifu_SR.jpg', 'images/waifu/waifu_VGG8_SR.jpg'], [50, 50, 150, 150])
+    # cmp.compare()
+
+    # cmp = PSNRComparator('images/waifu/waifu_low.jpg', 'images/waifu/waifu_VGG8_SR.jpg')
+    # dif = cmp.compare()
+    # print(dif)
+
+    

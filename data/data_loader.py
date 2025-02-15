@@ -4,6 +4,7 @@ import torchvision.transforms.functional as TF
 from PIL import Image
 import os
 
+
 transform = transforms.Compose([
     transforms.ToTensor()
 ])
@@ -36,8 +37,8 @@ class SRDataset(Dataset):
         return TF.to_tensor(lr), hr
 
 # Load datasets
-train_dataset = SRDataset(root="dataset/train", image_size=(256, 256))
-valid_dataset = SRDataset(root="dataset/valid", image_size=(256, 256))
+train_dataset = SRDataset(root="data/dataset/train", image_size=(256, 256))
+valid_dataset = SRDataset(root="data/dataset/valid", image_size=(256, 256))
 
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 valid_loader = DataLoader(valid_dataset, batch_size=16, shuffle=False)
