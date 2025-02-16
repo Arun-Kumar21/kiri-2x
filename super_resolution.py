@@ -4,6 +4,7 @@ import torchvision.transforms.functional as TF
 from models.srcnn import SRCNN
 from models.vgg.vgg8_SR import VGG8_SR
 from models.vgg.vgg16_pretrained import VGG16Upscaler
+from models.DnCNN.dncnn import DnCNN
 
 from config.config import CONFIG
 
@@ -48,15 +49,18 @@ class SuperResolution:
         return sr_image
 
 if __name__ == "__main__":
-    # model = VGG8_SR().to(CONFIG.DEVICE)
-    # sr = SuperResolution("weights/vgg8_rgb.pth", model)
-    # sr.upscale("images/waifu/waifu_low.jpg", save_path="images/waifu/waifu_VGG8_SR.jpg", show=True)
+    # model = DnCNN().to(CONFIG.DEVICE)
+    # sr = SuperResolution("weights/dncnn_rgb.pth", model)
+    # sr.upscale("images/images.jpg", save_path="images/images_SR.jpg", show=True)
     
-    cmp = ImageComparator(['images/waifu/waifu_low.jpg', 'images/waifu/waifu_SR.jpg', 'images/waifu/waifu_VGG8_SR.jpg'], ["SRCNN", "VGG"], [50, 50, 150, 150])
-    cmp.compare()
+    model = VGG8_SR().to(CONFIG.DEVICE)
+    sr = SuperResolution('weights/vgg8_rgb.pth', model, CONFIG.DEVICE)
+    sr.upscale('images/waifu/waifu_DnCNN_SR.jpg', save_path='images/waifu/waifu_DnCNN_VGG8_SR.jpg', show=True)
+
+    # cmp = ImageComparator(['images/images.jpg', 'images/images.jpg'], ["original", "DNCNN"], [50, 50, 75, 75])
+    # cmp.compare()
 
     # cmp = PSNRComparator('images/waifu/waifu_low.jpg', 'images/waifu/waifu_VGG8_SR.jpg')
     # dif = cmp.compare()
     # print(dif)
 
-    
