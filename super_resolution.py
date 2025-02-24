@@ -7,6 +7,8 @@ from models.vgg.vgg8_SR import VGG8_SR
 from models.vgg.vgg16_pretrained import VGG16Upscaler
 from models.DnCNN.dncnn import DnCNN
 from models.EDSR.edsr import EDSR
+from models.RCAN.model import RCANModel
+
 
 from config.config import CONFIG
 
@@ -18,23 +20,12 @@ from evaluation.psnr import PSNRComparator
 
 class SuperResolution:
     def __init__(self, model_path, model, device=CONFIG.DEVICE):
-        """
-        Initialize the SuperResolution model.
-        :param model_path: Path to the pre-trained model.
-        :param device: Device to run the model on (CPU/GPU).
-        """
         self.device = device
         self.model = model.to(self.device)
-        self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+        self.model.load_state_dict(torch.load(model_path, map_location=self.device, weights_only=True))
         self.model.eval()
     
     def upscale(self, img_path, save_path=None, show=False):
-        """
-        Perform super-resolution on an image.
-        :param img_path: Path to the low-resolution image.
-        :param save_path: Path to save the output image (optional).
-        :param show: Whether to display the image after processing.
-        """
         # lr_image, lr_tensor = preprocessing_img(img_path, device=self.device)
         img = Image.open(img_path).convert("RGB")
         img = TF.to_tensor(img).unsqueeze(0).to(self.device)
@@ -59,12 +50,11 @@ if __name__ == "__main__":
     
     # model = VGG8_SR().to(CONFIG.DEVICE)
     # sr = SuperResolution('weights/vgg8_rgb.pth', model, CONFIG.DEVICE)
-    # sr.upscale('images/waifu/waifu_DnCNN_SR.jpg', save_path='images/waifu/waifu_DnCNN_VGG8_SR.jpg', show=True)
+    # sr.upscale('images/waifu/waifu_low.jpg', save_path='images/waifu/waifu_VGG8_SR.jpg', show=True)
 
-    cmp = ImageComparator(['images/waifu/waifu_low.jpg', 'images/waifu/waifu_VGG8_SR.jpg', 'images/waifu/waifu_DnCNN_EDSR_SR.jpg'], ["original", "VGG8","EDSR-DnCNN"], [50, 50, 150, 150])
-    cmp.compare()
+    # cmp = ImageComparator(['images/waifu/waifu_low.jpg', 'images/waifu/waifu_VGG8_SR.jpg', 'images/waifu/waifu_DnCNN_EDSR_SR.jpg'], ["original", "VGG8","EDSR-DnCNN"], [50, 50, 150, 150])
+    # cmp.compare()
 
-    # model = EDSR().to(CONFIG.DEVICE)
-    # sr = SuperResolution('weights/edsr.pth', model, CONFIG.DEVICE)
-    # sr.upscale('images/waifu/waifu_DnCNN.jpg', save_path='images/waifu/waifu_DnCNN_EDSR_SR.jpg', show=True)
-    # sr.upscale('images/other/silent_voice.jpg', save_path='images/other/silent_voice_EDSR.jpg', show=True)
+    model = RCANModel(2).to(CONFIG.DEVICE)
+    sr = SuperResolution('weights/RCAN_rgb.pth', model, CONFIG.DEVICE)
+    sr.upscale('images/waifu/waifu_low.jpg', save_path='images/waifu/waifu_RCAN_SR.jpg', show=True)

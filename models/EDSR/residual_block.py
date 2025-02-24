@@ -14,3 +14,4 @@ class ResidualBlock(nn.Module):
         residual = self.relu(residual)
         residual = self.conv2(residual)
         return x + self.res_scale * residual
+    
