@@ -12,7 +12,7 @@ transform = transforms.Compose([
 ])
 
 class NoisyDataSet(Dataset):
-    def __init__(self, root, noise_std = 25):
+    def __init__(self, root, noise_std = 50):
         self.images_dir = os.path.join(root, 'images')
         self.images_path = sorted([os.path.join(self.images_dir, f) 
                                    for f in os.listdir(self.images_dir) 

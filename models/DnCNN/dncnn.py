@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class DnCNN(nn.Module):
-    def __init__(self, num_layers=16, num_features=64):
+    def __init__(self, num_layers=20, num_features=64):
         super().__init__()
 
         self.layers = nn.Sequential(
