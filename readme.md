@@ -10,7 +10,7 @@ Compared to Waifu2x, which utilizes a more advanced deep convolutional network w
 
 > Work is in progress to improve the results to match Waifu2x quality.
 
-## Enchanced version:
+## Enhanced version:
 
 Implementing Enhanced Deep Residual Networks (EDSR) for further improvement in image super-resolution quality [Research Paper](https://arxiv.org/abs/1707.02921)
 
