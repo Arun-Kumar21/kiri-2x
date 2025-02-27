@@ -9,11 +9,12 @@ from config.config import CONFIG
 from models.EDSR.edsr import EDSR
 
 class VideoUpscaler:
-    def __init__(self, video_path, frames_dir='videos/frames', upscaled_frames_dir='videos/upscaled_frames', output_video='videos/upscaled_video.mp4'):
+    def __init__(self, video_path, frames_dir='videos/frames', upscaled_frames_dir='videos/upscaled_frames', output_video='videos/upscaled_video.mp4', audio_file='videos/audio.aac'):
         self.video_path = video_path
         self.frames_dir = frames_dir
         self.upscaled_frames_dir = upscaled_frames_dir
         self.output_video = output_video
+        self.audio_file = audio_file
         self.model = self.load_model()
         
         os.makedirs(self.frames_dir, exist_ok=True)
@@ -33,6 +34,13 @@ class VideoUpscaler:
         ]
         subprocess.run(ffmpeg_cmd, check=True)
         print(f"Frames extracted to {self.frames_dir}")
+    
+    def extract_audio(self):
+        ffmpeg_audio_cmd = [
+            "ffmpeg", "-i", self.video_path, "-q:a", "0", "-map", "a", self.audio_file
+        ]
+        subprocess.run(ffmpeg_audio_cmd, check=True)
+        print("Audio extracted")
     
     def upscale_frames(self):
         frames = [f for f in os.listdir(self.frames_dir) if f.endswith('.png')]
@@ -54,10 +62,13 @@ class VideoUpscaler:
             "-i", os.path.join(self.upscaled_frames_dir, "frame_%04d.png"),
             "-c:v", "libx264",
             "-pix_fmt", "yuv420p",
+            "-c:a", "aac", "-strict", "experimental", "-b:a", "192k",
+            "-i", self.audio_file,
+            "-map", "0:v:0", "-map", "1:a:0",
             self.output_video
         ]
         subprocess.run(ffmpeg_video, check=True)
-        print("Upscaled video generated")
+        print("Upscaled video generated with audio")
     
     def cleanup(self):
         pattern = 'frame_*.png'
@@ -68,9 +79,14 @@ class VideoUpscaler:
         for file_path in glob.glob(os.path.join(self.upscaled_frames_dir, pattern)):
             os.remove(file_path)
         print("Upscaled frames deleted")
+        
+        if os.path.exists(self.audio_file):
+            os.remove(self.audio_file)
+            print("Extracted audio deleted")
     
     def process(self):
         self.extract_frames()
+        self.extract_audio()
         self.upscale_frames()
         self.generate_video()
         self.cleanup()
