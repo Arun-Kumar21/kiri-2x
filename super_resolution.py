@@ -43,25 +43,25 @@ class SuperResolution:
         
         return sr_image
 
-if __name__ == "__main__":
-    # noise_model = DnCNN().to(CONFIG.DEVICE)
-    # cleanSr = SuperResolution("weights/dncnn.pth", noise_model)
-    # cleanSr.upscale("images/other/mizuki.png", save_path="images/other/mizuki-DNCNN.png", show=True)
+# if __name__ == "__main__":
+#     # noise_model = DnCNN().to(CONFIG.DEVICE)
+#     # cleanSr = SuperResolution("weights/dncnn.pth", noise_model)
+#     # cleanSr.upscale("images/other/mizuki.png", save_path="images/other/mizuki-DNCNN.png", show=True)
     
 
-    # model = EDSR().to(CONFIG.DEVICE)
-    # sr = SuperResolution('weights/edsr.pth', model, CONFIG.DEVICE)
-    # sr.upscale('images/other/mizuki.png', save_path='images/other/mizuki_EDSR.png', show=True)
+#     # model = EDSR().to(CONFIG.DEVICE)
+#     # sr = SuperResolution('weights/edsr.pth', model, CONFIG.DEVICE)
+#     # sr.upscale('images/other/mizuki.png', save_path='images/other/mizuki_EDSR.png', show=True)
 
-    # cmp = ImageComparator(['images/other/mizuki.png', 'images/other/mizuki-DNCNN_EDSR.png', 'images/other/mizuki_2x.png'], [ "EDSR-DnCNN", "Internet"], [50, 50, 150, 150])
-    cmp = ImageComparator(
-    image_paths=[
-        "images/other/mizuki.png",             
-        "images/other/mizuki_EDSR.png",
-        "images/other/mizuki_waifu2x.png"        
-    ],
-    image_labels=["EDSR", "Waifu2x"], 
-    crop_coords=(1600, 700, 1650, 750)
-    )
+#     # cmp = ImageComparator(['images/other/mizuki.png', 'images/other/mizuki-DNCNN_EDSR.png', 'images/other/mizuki_2x.png'], [ "EDSR-DnCNN", "Internet"], [50, 50, 150, 150])
+#     cmp = ImageComparator(
+#     image_paths=[
+#         "images/other/mizuki.png",             
+#         "images/other/mizuki_EDSR.png",
+#         "images/other/mizuki_waifu2x.png"        
+#     ],
+#     image_labels=["EDSR", "Waifu2x"], 
+#     crop_coords=(1600, 700, 1650, 750)
+#     )
 
-    cmp.compare()  # Run the comparison
+#     cmp.compare()  # Run the comparison
