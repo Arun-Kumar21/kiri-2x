@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import customtkinter
+from tkinter import messagebox
 from PIL import Image
 
 import sys
@@ -77,16 +78,17 @@ class UpscalerGUI:
         save_path = self.save_path.cget('text')
 
         if file_path.endswith(('.png', '.jpg', '.jpeg')):
-            self.upscale_image(file_path, save_path)
-
+            save_path = self.upscale_image(file_path, save_path)
+        
+        messagebox.showinfo('Upscaling Complete', 'Upscaling complete. Upscaled image' + save_path)
+        self.root.quit()
 
     def upscale_image(self, file_path, save_path):
         model = EDSR().to(CONFIG.DEVICE)  
         save_path = os.path.join(save_path, os.path.splitext(os.path.basename(file_path))[0] + '_2x.png')
         sr = SuperResolution('weights/edsr.pth', model, CONFIG.DEVICE)
         sr.upscale(file_path, save_path)
-        
-
+        return save_path 
 
 if __name__ == "__main__":
     root = customtkinter.CTk()

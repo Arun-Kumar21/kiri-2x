@@ -20,17 +20,36 @@ Implementing Enhanced Deep Residual Networks (EDSR) for further improvement in i
 
 Compared to Waifu2x, the results are comparable, with EDSR performing at the same level as Waifu2x.
 
-## Usage
+## How to use
 
 Perform super-resolution on an image:
 
-1. Place your input image in the `images/` folder.
-2. Update the file path in `super_resolution.py` to point to your image.
-3. Choose an output file name for the upscaled image.
-4. Run the following command:
+1. Clone the repository:
 
 ```bash
-python super_resolution.py
+git clone https://github.com/Arun-Kumar21/kiri-2x.git
+cd kiri-2x
 ```
+
+2. Install required dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+3. Run the GUI with the following script:
+
+```bash
+python gui.py
+```
+
+4. You will see an interface like this:
+
+![GUI](https://myjournalbucket-arun.s3.eu-north-1.amazonaws.com/gui.png)
+
+6. Select the image for upscaling by clicking the `Browse` button.
+7. Choose the save path by clicking the `Browse Save Path` button.
+8. Click the `Start Upscaling` button.
+9. Once upscaling is complete, a message dialog will appear, and your file will be saved to the specified path with the name `filename_2x.png`.
 
 > The default super_resolution.py uses a pre-trained model stored in the `weights/` directory.
